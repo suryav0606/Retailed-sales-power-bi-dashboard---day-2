@@ -1,0 +1,26 @@
+#This Power BI project presents an interactive and insightful dashboard analyzing the sales performance of various retail outlets. The dataset includes details about items sold, outlet types, sizes, years of establishment, and sales metrics. The dashboard helps uncover key trends, top-performing categories, and outlet-wise performance.
+
+1. DAX Forumulas
+Average MRP = AVERAGE('Cleaned_Sales_Dataset'[Item_MRP])
+
+Average sales per outlet = DIVIDE(SUM('Cleaned_Sales_Dataset'[Sales]),DISTINCTCOUNT('Cleaned_Sales_Dataset'[Outlet_Identifier]))
+
+Category Sales = CALCULATE(SUM('Cleaned_Sales_Dataset'[Sales]),ALLSELECTED('Cleaned_Sales_Dataset'[Item_Type]))
+
+TopCategory = VAR TopCategory =TOPN(1,SUMMARIZE('Cleaned_Sales_Dataset', 'Cleaned_Sales_Dataset'[Item_Type], "TotalSales", SUM('Cleaned_Sales_Dataset'[Sales])),[TotalSales],DESC)
+RETURN
+MAXX(TopCategory, 'Cleaned_Sales_Dataset'[Item_Type])
+
+Total Sales = SUM(Cleaned_Sales_Dataset[Sales])
+
+Unique Items = DISTINCTCOUNT('Cleaned_Sales_Dataset'[Item_Identifier])
+
+2. Charts
+Chart Type	- Description
+Bar Chart	- Total Sales by Item Type
+Column Chart	- Total Sales by Outlet Size
+Donut Chart	- Sales Distribution by Outlet Type
+Line Chart	- Earliest Year of Establishment by Outlet Type
+KPI Cards	- Key stats like Total Sales, Unique Items, Avg MRP, Avg Sales per Outlet
+Slicers	        - Filters by Outlet Size, Type, and Location for dynamic interaction
+
